@@ -1,4 +1,4 @@
-/*let fetch = require('node-fetch')
+  let fetch = require('node-fetch')
   let handler = async(m, { conn,usedPrefix,command, text }) => {
    try{ const more = String.fromCharCode(8206)
     const readMore = more.repeat(4001)
@@ -33,4 +33,4 @@
   handler.sudo = true
   
   module.exports = handler
-  */
+  
