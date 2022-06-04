@@ -10,12 +10,12 @@ let handler = async (m, { conn, usedPrefix }) => {
         conn.reply(m.chat, 'There are still unanswered questions in this chat', conn.guessph[id][0])
         throw false
     }
-    let res = await fetch('https://raw.githubusercontent.com/sumitkant9536/database/master/games/tebakgambar.json')
+    let res = await fetch('https://raw.githubusercontent.com/sumitkant9536/database/master/games/guessflag2.json')
     if (!res.ok) throw await `${res.status} ${res.statusText}`
     let data = await res.json()
     let json = data[Math.floor(Math.random() * data.length)]
     let caption = `
-${json.img}
+${usedPrefix}fetch ${json.img}
 ${json.deskripsi}
 
 Timeout *${(timeout / 1000).toFixed(2)} second*
