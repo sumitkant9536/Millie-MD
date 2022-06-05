@@ -23,7 +23,7 @@ Type ${usedPrefix}wrhint for help
 Bonus: ${poin} XP
     `.trim()
     conn.guessph[id] = [
-        await conn.reply(m.chat, caption, m),
+        await conn.reply(m.chat, json.img, buttons, m),
         json, poin,
         setTimeout(() => {
             if (conn.guessph[id]) conn.reply(m.chat, `Time is up!\nThe Answer Is *${json.jawaban}*`, conn.guessph[id][0])
