@@ -1,19 +1,10 @@
-console.log('Start...')
-let { spawn } = require('child_process')
+console.log('Starting...')
+let cluster = require('cluster')
 let path = require('path')
 let fs = require('fs')
-let package = require('./package.json')
-const CFonts = require('cfonts')
-CFonts.say('ᴍɪʟʟɪᴇ', {
-  colors: ['#f2aa4c'],
-  font: 'block',
-  align: 'center',
-})
-CFonts.say(`'${package.name}' By @${package.author.name || package.author}`, {
-  colors: ['#f2aa4c'],
-  font: 'console',
-  align: 'center',
-})
+const Readline = require('readline')
+const yargs = require('yargs/yargs')
+const rl = Readline.createInterface(process.stdin, process.stdout)
 
 var isRunning = false
 /**
@@ -24,14 +15,12 @@ function start(file) {
   if (isRunning) return
   isRunning = true
   let args = [path.join(__dirname, file), ...process.argv.slice(2)]
-  CFonts.say([process.argv[0], ...args].join(' '), {
-    colors: ['#f2aa4c'],
-    font: 'console',
-    align: 'center',
+
+  cluster.setupMaster({
+    exec: path.join(__dirname, file),
+    args: args.slice(1),
   })
-  let p = spawn(process.argv[0], args, {
-    stdio: ['inherit', 'inherit', 'inherit', 'ipc']
-  })
+  let p = cluster.fork()
   p.on('message', data => {
     console.log('[RECEIVED]', data)
     switch (data) {
@@ -54,7 +43,13 @@ function start(file) {
       start(file)
     })
   })
+  let opts = new Object(yargs(process.argv.slice(2)).exitProcess(false).parse())
+  if (!opts['test'])
+    if (!rl.listenerCount()) rl.on('line', line => {
+      p.emit('message', line.trim())
+    })
   // console.log(p)
 }
 
-start('main.js')
+
+start('Millie.js')
