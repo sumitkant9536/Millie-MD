@@ -15,9 +15,6 @@ let handler = async (m, { conn, usedPrefix }) => {
     let data = await res.json()
     let json = data[Math.floor(Math.random() * data.length)]
     let caption = `
-${usedPrefix}fetch ${json.img}
-${json.deskripsi}
-
 Timeout *${(timeout / 1000).toFixed(2)} second*
 Type ${usedPrefix}wrhint for help
 Bonus: ${poin} XP
